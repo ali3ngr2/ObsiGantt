@@ -47,7 +47,7 @@ Field names are case-insensitive.
 
 ## Usage
 
-Open the chart from the ribbon icon or the command palette (`Giganttix: Open Gantt view`).
+Open the chart from the ribbon icon or the command palette.
 
 ## Settings
 
