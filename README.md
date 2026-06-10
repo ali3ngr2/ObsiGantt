@@ -1,11 +1,11 @@
-# ObsiGantt
+# Giganttix
 Visualise your task notes as a draggable Gantt chart in Obsidian
 
-ObsiGantt scans your vault for notes with date frontmatter and renders them as an interactive timeline. Each note is one bar. Drag a bar to reschedule the task & the new dates are written back to the note's frontmatter. Click a bar to open the note.
+Giganttix scans your vault for notes with date frontmatter and renders them as an interactive timeline. Each note is one bar. Drag a bar to reschedule the task & the new dates are written back to the note's frontmatter. Click a bar to open the note.
 
 Originally built as a companion to [TaskNotes](https://github.com/callumalpass/tasknotes), but should works with any notes that carry date frontmatter, anything with a startDate and endDate.
 
-![ObsiGantt and TaskNotes](assets/Obsigant-tasknotes.png) 
+![Giganttix and TaskNotes](assets/Obsigant-tasknotes.png) 
 
 ## How it works
 
@@ -43,11 +43,11 @@ Field names are case-insensitive.
 - **Scope your tasks** : limit the chart to a folder and/or require a frontmatter property (e.g. only notes with a `projects` property)
 - **Status colors** : keep the theme accent color, or assign a color per status in settings
 
-![ObsiGantt](assets/Obsigantt.png)
+![Giganttix](assets/Giganttix.png)
 
 ## Usage
 
-Open the chart from the ribbon icon or the command palette (`ObsiGantt: Open Gantt view`).
+Open the chart from the ribbon icon or the command palette (`Giganttix: Open Gantt view`).
 
 ## Settings
 
@@ -64,7 +64,7 @@ Open the chart from the ribbon icon or the command palette (`ObsiGantt: Open Gan
 
 ## Installation
 
-**Community plugins:** Settings → Community plugins → Browse → search "ObsiGantt".
+**Community plugins:** Settings → Community plugins → Browse → search "Giganttix".
 
 
 ## Notes and limitations
