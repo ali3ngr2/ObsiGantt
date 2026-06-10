@@ -42,7 +42,7 @@ export default class TaskGanttPlugin extends Plugin {
     this.addSettingTab(new TaskGanttSettingTab(this.app, this));
 
     this.addRibbonIcon("gantt-chart", "Open Giganttix", () => {
-      this.activateView();
+      void this.activateView();
     });
 
     this.addCommand({
@@ -70,12 +70,12 @@ export default class TaskGanttPlugin extends Plugin {
     const { workspace } = this.app;
     const existing = workspace.getLeavesOfType(GANTT_VIEW_TYPE);
     if (existing.length > 0) {
-      workspace.revealLeaf(existing[0]);
+      await workspace.revealLeaf(existing[0]);
       return;
     }
     const leaf = workspace.getLeaf("tab");
     await leaf.setViewState({ type: GANTT_VIEW_TYPE, active: true });
-    workspace.revealLeaf(leaf);
+    await workspace.revealLeaf(leaf);
   }
 }
 

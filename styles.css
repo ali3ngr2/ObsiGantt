@@ -164,6 +164,15 @@
   display: none !important;
 }
 
+/* ── Per-status bar colours ──────────────────────────────────────
+   The view sets --task-gantt-status-color and the marker class on
+   each bar wrapper from settings (see GanttView.applyStatusColors).
+   Must out-specify the generic .gantt .bar !important rules above. */
+.task-gantt-root .gantt .bar-wrapper.task-gantt-status-colored .bar,
+.task-gantt-root .gantt .bar-wrapper.task-gantt-status-colored .bar-progress {
+  fill: var(--task-gantt-status-color) !important;
+}
+
 /* ── Status colours — commented out, using theme default ─────── */
 /*
 .gantt .bar-wrapper.status-en-cours .bar         { fill: #4a9eff !important; }

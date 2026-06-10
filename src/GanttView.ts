@@ -18,7 +18,6 @@ export class GanttView extends ItemView {
   private container!: HTMLElement;
   private filterSelect!: HTMLSelectElement;
   private modeButtons: Map<ViewMode, HTMLButtonElement> = new Map();
-  private styleEl!: HTMLStyleElement;
 
   constructor(leaf: WorkspaceLeaf, private plugin: TaskGanttPlugin) {
     super(leaf);
@@ -83,33 +82,30 @@ export class GanttView extends ItemView {
       text: "↻",
       cls: "task-gantt-refresh-btn",
       attr: { title: "Refresh" },
-    }).addEventListener("click", () => this.reload());
+    }).addEventListener("click", () => { void this.reload(); });
 
     this.container = root.createDiv({ cls: "task-gantt-container" });
-
-    // Per-status bar colors (settings-driven, applies without redraw)
-    this.styleEl = root.createEl("style");
-    this.applyStatusColors();
   }
 
-  /** Builds CSS rules for per-status bar colors from settings. */
+  /**
+   * Per-status bar colors (settings-driven, applies without redraw).
+   * Sets a CSS variable + marker class on each bar wrapper; the actual
+   * fill rule lives in styles.css (no style element — guideline).
+   */
   private applyStatusColors(): void {
     const s = this.plugin.settings;
-    if (!s.colorByStatus) {
-      this.styleEl.textContent = "";
-      return;
-    }
-    this.styleEl.textContent = Object.entries(s.statusColors)
-      .filter(([, hex]) => /^#[0-9a-fA-F]{6}$/.test(hex))
-      .map(([status, hex]) => {
-        const slug = slugify(status);
-        return (
-          `.task-gantt-root .gantt .bar-wrapper.status-${slug} .bar,\n` +
-          `.task-gantt-root .gantt .bar-wrapper.status-${slug} .bar-progress ` +
-          `{ fill: ${hex} !important; }`
-        );
-      })
-      .join("\n");
+    const byId = new Map(this.tasks.map((t) => [t.id, t]));
+    this.contentEl.querySelectorAll<SVGGElement>(".bar-wrapper").forEach((w) => {
+      const t = byId.get(w.getAttribute("data-id") ?? "");
+      const hex = t ? s.statusColors[t.status.toLowerCase()] ?? "" : "";
+      if (s.colorByStatus && /^#[0-9a-fA-F]{6}$/.test(hex)) {
+        w.classList.add("task-gantt-status-colored");
+        w.style.setProperty("--task-gantt-status-color", hex);
+      } else {
+        w.classList.remove("task-gantt-status-colored");
+        w.style.removeProperty("--task-gantt-status-color");
+      }
+    });
   }
 
   /** Called by the plugin when settings change while the view is open. */
@@ -125,7 +121,7 @@ export class GanttView extends ItemView {
    */
   private markPendingWrite(path: string): void {
     this.pendingWrites.add(path);
-    setTimeout(() => this.pendingWrites.delete(path), 2000);
+    window.setTimeout(() => this.pendingWrites.delete(path), 2000);
   }
 
   // ── Data ───────────────────────────────────────────────────────────────────
@@ -248,17 +244,18 @@ export class GanttView extends ItemView {
       on_click: (task: FrappeTask) => {
         const file = this.app.vault.getAbstractFileByPath(task.id);
         if (file instanceof TFile) {
-          this.app.workspace.getLeaf(false).openFile(file);
+          void this.app.workspace.getLeaf(false).openFile(file);
         }
       },
     });
 
     this.addTooltips();
+    this.applyStatusColors();
     this.shadeWeekends(tasks);
 
     const todayX = this.computeTodayX(tasks);
     this.injectTodayLine(todayX);
-    setTimeout(() => {
+    window.setTimeout(() => {
       if (saved) {
         const gc = this.contentEl.querySelector(".gantt-container") as HTMLElement | null;
         if (gc) { gc.scrollLeft = saved.left; gc.scrollTop = saved.top; }
@@ -282,7 +279,7 @@ export class GanttView extends ItemView {
       if (!t) return;
       let title = w.querySelector<SVGTitleElement>(":scope > title");
       if (!title) {
-        title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        title = createSvg("title");
         w.insertBefore(title, w.firstChild);
       }
       const lines = [t.name];
@@ -317,7 +314,7 @@ export class GanttView extends ItemView {
     for (let i = 0; i < days; i++) {
       const dow = cur.getDay();
       if (dow === 0 || dow === 6) {
-        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        const rect = createSvg("rect");
         rect.setAttribute("class", "task-gantt-weekend");
         rect.setAttribute("x", String(i * COL_W));
         rect.setAttribute("y", String(HEADER_H));
@@ -379,7 +376,7 @@ export class GanttView extends ItemView {
     if (!svg) return;
     svg.querySelector(".task-gantt-today-line")?.remove();
     const h = parseFloat(svg.getAttribute("height") ?? "500");
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    const line = createSvg("line");
     line.setAttribute("class", "task-gantt-today-line");
     line.setAttribute("x1", String(x));
     line.setAttribute("x2", String(x));
@@ -398,7 +395,7 @@ export class GanttView extends ItemView {
     // off-center. Verify and retry until layout settles (max ~500ms).
     const settled = gc.clientWidth > 0 && Math.abs(gc.scrollLeft - target) < 2;
     if (!settled && attempts > 0) {
-      setTimeout(() => this.jumpToToday(x, attempts - 1), 50);
+      window.setTimeout(() => this.jumpToToday(x, attempts - 1), 50);
     }
   }
 
