@@ -5,7 +5,7 @@ ObsiGantt scans your vault for notes with date frontmatter and renders them as a
 
 Originally built as a companion to [TaskNotes](https://github.com/callumalpass/tasknotes), but should works with any notes that carry date frontmatter, anything with a startDate and endDate.
 
-![ObsiGantt and TaskNotes](assets/Obsigant-tasknotes.png)
+![ObsiGantt and TaskNotes](assets/Obsigant-tasknotes.png) 
 
 ## How it works
 
