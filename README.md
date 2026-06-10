@@ -5,6 +5,8 @@ ObsiGantt scans your vault for notes with date frontmatter and renders them as a
 
 Originally built as a companion to [TaskNotes](https://github.com/callumalpass/tasknotes) (one note = one task), but it works with any notes that carry date frontmatter — projects, trips, content calendars, anything with a start and an end.
 
+![ObsiGantt and TaskNotes](assets/Obsigant-tasknotes.png)
+
 ## How it works
 
 Add dates to any note's frontmatter and it appears on the chart:
@@ -43,6 +45,8 @@ Field names are case-insensitive.
 - **Status colors** : keep the theme accent color, or assign a color per status in settings
 - **Theme-aware** : uses Obsidian CSS variables throughout; works with any theme
 
+![ObsiGantt](assets/Obsigantt.png)
+
 ## Usage
 
 Open the chart from the ribbon icon or the command palette (`ObsiGantt: Open Gantt view`).
@@ -65,6 +69,8 @@ Per-status colors can also be set with a CSS snippet targeting `.gantt .bar-wrap
 **Community plugins:** Settings → Community plugins → Browse → search "ObsiGantt".
 
 **Manual:** copy `main.js`, `manifest.json`, and `styles.css` into `<vault>/.obsidian/plugins/obsigantt/`, then enable the plugin in Settings → Community plugins.
+
+![Settings](assets/settings.png)
 
 ## Notes and limitations
 
