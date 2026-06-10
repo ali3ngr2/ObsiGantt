@@ -29,7 +29,7 @@ export class GanttView extends ItemView {
   }
 
   getViewType()    { return GANTT_VIEW_TYPE; }
-  getDisplayText() { return "ObsiGantt"; }
+  getDisplayText() { return "Giganttix"; }
   getIcon()        { return "gantt-chart"; }
 
   async onOpen(): Promise<void> {

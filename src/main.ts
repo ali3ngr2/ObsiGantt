@@ -41,7 +41,7 @@ export default class TaskGanttPlugin extends Plugin {
 
     this.addSettingTab(new TaskGanttSettingTab(this.app, this));
 
-    this.addRibbonIcon("gantt-chart", "Open ObsiGantt", () => {
+    this.addRibbonIcon("gantt-chart", "Open Giganttix", () => {
       this.activateView();
     });
 
